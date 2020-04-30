@@ -8,24 +8,67 @@ import deleteIcon from '../../assets/images/delete.svg'
 import edit from '../../assets/images/edit.svg'
 import plus from '../../assets/images/plus.svg'
 
-function WorkElem() {
-  const todoContext = useContext(TodoContext)
+function WorkElem(props) {
+  // delete list elem using index
+  // update new list
+  const deleteElem = () => {
+    const newContext = [...props.context]
+    newContext.splice(props.index, 1)
+    props.update(newContext)
+  }
 
-  console.log(todoContext)
+  // default: green
+  // green -> yellow -> red
+  // TODO 버튼 누르면 importance 변경하기
+  const changeImportance = () => {
+    const newContext = [...props.context]
 
+    console.log(newContext[props.index].importance)
+  }
+
+  const list = props.list
+
+  // set bgColor depends on importance
+  const setImportanceColor = () => {
+    let style
+    if (props.list.importance === 'red') {
+      style = {
+        backgroundColor: '#FB6666',
+      }
+    } else if (props.list.importance === 'green') {
+      style = {
+        backgroundColor: '#E4C862',
+      }
+    } else if (props.list.importance === 'yellow') {
+      style = {
+        backgroundColor: '#7DCEAC',
+      }
+    }
+
+    return style
+  }
   return (
     <div id="work-box">
       <div className="work-elem">
-        <button className="work-importance"></button>
+        <button
+          className="work-importance"
+          style={setImportanceColor()}
+          onClick={changeImportance}
+        ></button>
         <div className="work-data">
           <div className="work-top-box">
-            <span className="work-title">title</span>
-            <span className="work-date">2020/04/28</span>
+            <span className="work-title">{list.title}</span>
+            <span className="work-date">{list.date}</span>
           </div>
-          <div className="work-contents">{todoContext[0].contents}</div>
+          <div className="work-contents">{list.contents}</div>
         </div>
         <img className="edit-icon" src={edit} alt="edit" />
-        <img className="delete-icon" src={deleteIcon} alt="delete" />
+        <img
+          onClick={deleteElem}
+          className="delete-icon"
+          src={deleteIcon}
+          alt="delete"
+        />
       </div>
       <div className="work-check">
         <button className="work-check-btn"></button>
