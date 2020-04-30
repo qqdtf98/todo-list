@@ -1,9 +1,9 @@
 import './index.scss'
 
+import { DoneContext, TodoContext } from '../TodoList'
 import React, { useContext } from 'react'
 
 import { Scrollbars } from 'react-custom-scrollbars'
-import { TodoContext } from '../TodoList'
 import deleteIcon from '../../assets/images/delete.svg'
 import edit from '../../assets/images/edit.svg'
 import plus from '../../assets/images/plus.svg'
@@ -78,6 +78,24 @@ function WorkElem(props) {
 }
 
 export function Todo() {
+  const todoContext = useContext(TodoContext)
+  const todo = todoContext.state
+  const update = todoContext.update
+  const todoItems = []
+
+  // create for loop for <WorkElem />
+  for (const [index, value] of todo.entries()) {
+    todoItems.push(
+      <WorkElem
+        key={index}
+        index={index}
+        list={value}
+        context={todo}
+        update={update}
+      />
+    )
+  }
+
   return (
     <div id="list" className="todo">
       <div className="list-text">Todo</div>
@@ -86,14 +104,7 @@ export function Todo() {
           <img className="add-icon" src={plus} alt="plus" />
         </button>
       </div>
-      <Scrollbars style={{ width: 476, height: 450 }}>
-        <WorkElem />
-        <WorkElem />
-        <WorkElem />
-        <WorkElem />
-        <WorkElem />
-        <WorkElem />
-      </Scrollbars>
+      <Scrollbars style={{ width: 476, height: 450 }}>{todoItems}</Scrollbars>
     </div>
   )
 }
