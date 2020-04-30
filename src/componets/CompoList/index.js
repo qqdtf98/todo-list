@@ -99,12 +99,29 @@ export function Todo() {
 }
 
 export function Done() {
+  const doneContext = useContext(DoneContext)
+  const done = doneContext.state
+  const update = doneContext.update
+
+  const doneItems = []
+
+  // create for loop for <WorkElem />
+  for (const [index, value] of done.entries()) {
+    doneItems.push(
+      <WorkElem
+        key={index}
+        index={index}
+        list={value}
+        context={done}
+        update={update}
+      />
+    )
+  }
+
   return (
     <div id="list" className="done">
       <div className="list-text">Done</div>
-      <Scrollbars style={{ width: 476, height: 530 }}>
-        <WorkElem />
-      </Scrollbars>
+      <Scrollbars style={{ width: 476, height: 530 }}>{doneItems}</Scrollbars>
     </div>
   )
 }

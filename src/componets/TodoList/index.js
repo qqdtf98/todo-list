@@ -24,6 +24,16 @@ export const TodoContext = React.createContext([
   },
 ])
 
+export const DoneContext = React.createContext([
+  {
+    title: '',
+    contents: '',
+    date: '',
+    state: true,
+    importance: '',
+  },
+])
+
 function TodoList() {
   const [state, setState] = useState([
     {
@@ -52,7 +62,20 @@ function TodoList() {
       contents: 'contents4',
       date: '2020/04/29',
       state: false,
+  const [done, setDone] = useState([
+    {
+      title: 'title',
+      contents: 'done1',
+      date: '2020/04/29',
+      state: true,
       importance: 'red',
+    },
+    {
+      title: 'title',
+      contents: 'done2',
+      date: '2020/04/29',
+      state: true,
+      importance: 'yellow',
     },
   ])
   // TODO push나 splice 할 때는 배열 복사해서 한 다음에 다시 setState하기
@@ -61,9 +84,10 @@ function TodoList() {
       <h1 className="todo-title">Todo List</h1>
       <SearchBar />
       <div className="list-wrapper">
-        <TodoContext.Provider value={state}>
-          <Todo />
-          <Done />
+          <DoneContext.Provider value={{ state: done, update: setDone }}>
+            <Todo />
+            <Done />
+          </DoneContext.Provider>
         </TodoContext.Provider>
       </div>
     </div>
