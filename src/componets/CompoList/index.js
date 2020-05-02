@@ -19,11 +19,19 @@ function WorkElem(props) {
 
   // default: green
   // green -> yellow -> red
-  // TODO 버튼 누르면 importance 변경하기
-  const changeImportance = () => {
+  const changeImportance = (e) => {
     const newContext = [...props.context]
-
-    console.log(newContext[props.index].importance)
+    if (newContext[props.index].importance === 'red') {
+      newContext[props.index].importance = 'green'
+      e.target.style.backgroundColor = '#E4C862'
+    } else if (newContext[props.index].importance === 'green') {
+      newContext[props.index].importance = 'yellow'
+      e.target.style.backgroundColor = '#7DCEAC'
+    } else if (newContext[props.index].importance === 'yellow') {
+      newContext[props.index].importance = 'red'
+      e.target.style.backgroundColor = '#FB6666'
+    }
+    props.update(newContext)
   }
 
   const list = props.list
