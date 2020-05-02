@@ -33,6 +33,7 @@
       border: none;
       margin-top: 20px;
       position: relative;
+      cursor: pointer;
 
       .add-icon {
         position: absolute;
@@ -40,6 +41,22 @@
         top: 50%;
         transform: translateY(-50%);
         width: 22px;
+      }
+      .search-input {
+        position: absolute;
+        left: 50px;
+        border: none;
+        color: white;
+        background: none;
+        font-size: 23px;
+        top: 50%;
+        transform: translateY(-50%);
+        outline: none;
+
+        &::placeholder {
+          color: white;
+          font-size: 23px;
+        }
       }
     }
   }
@@ -118,8 +135,8 @@
       background-color: #fff;
       border: none;
       border: 1.2px solid #ac7de8;
-      width: 14px;
-      height: 15px;
+      width: 22px;
+      height: 22px;
       border-radius: 50%;
     }
   }

@@ -1,7 +1,7 @@
 import './index.scss'
 
 import { DoneContext, TodoContext } from '../TodoList'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 
 import { Scrollbars } from 'react-custom-scrollbars'
 import deleteIcon from '../../assets/images/delete.svg'
@@ -85,23 +85,52 @@ function WorkElem(props) {
   )
 }
 
-export function Todo() {
+export function Todo(props) {
   const todoContext = useContext(TodoContext)
   const todo = todoContext.state
   const update = todoContext.update
   const todoItems = []
 
   // create for loop for <WorkElem />
-  for (const [index, value] of todo.entries()) {
+  for (let i = todo.length - 1; i >= 0; i--) {
     todoItems.push(
       <WorkElem
-        key={index}
-        index={index}
-        list={value}
+        key={i}
+        index={i}
+        list={todo[i]}
         context={todo}
         update={update}
       />
     )
+  }
+
+  // TODO 컴포넌트 마운트 될 때 focus
+  let textInput = null
+  useEffect(() => {
+    textInput.focus()
+  }, [textInput])
+
+  const addElem = (e) => {
+    if (e.key === 'Enter') {
+      console.log('enter')
+      const newTodo = [...todo]
+      const today = new Date()
+      const date =
+        today.getFullYear() +
+        '/' +
+        (today.getMonth() + 1) +
+        '/' +
+        today.getDate()
+      const newContext = {
+        title: 'title',
+        contents: e.target.value,
+        date,
+        state: true,
+        importance: 'yellow',
+      }
+      newTodo.push(newContext)
+      update(newTodo)
+    }
   }
 
   return (
@@ -110,6 +139,13 @@ export function Todo() {
       <div className="add-btn-box">
         <button className="add-btn">
           <img className="add-icon" src={plus} alt="plus" />
+          <input
+            spellCheck="false"
+            className="search-input"
+            placeholder="add a task"
+            onKeyDown={addElem}
+            ref={(elem) => (textInput = elem)}
+          />
         </button>
       </div>
       <Scrollbars style={{ width: 476, height: 450 }}>{todoItems}</Scrollbars>
@@ -125,12 +161,12 @@ export function Done() {
   const doneItems = []
 
   // create for loop for <WorkElem />
-  for (const [index, value] of done.entries()) {
+  for (let i = done.length - 1; i >= 0; i--) {
     doneItems.push(
       <WorkElem
-        key={index}
-        index={index}
-        list={value}
+        key={i}
+        index={i}
+        list={done[i]}
         context={done}
         update={update}
       />
