@@ -125,7 +125,7 @@
   }
 
   .work-check {
-    width: 35px;
+    width: 40px;
     height: 100%;
     display: flex;
     justify-content: center;
@@ -134,10 +134,12 @@
     .work-check-btn {
       background-color: #fff;
       border: none;
-      border: 1.2px solid #ac7de8;
-      width: 22px;
-      height: 22px;
+      border: 1.2px solid #f9457a;
+      width: 25px;
+      height: 25px;
       border-radius: 50%;
+      cursor: pointer;
+      user-select: none;
     }
   }
 }

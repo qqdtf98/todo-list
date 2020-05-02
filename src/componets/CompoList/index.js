@@ -23,13 +23,10 @@ function WorkElem(props) {
     const newContext = [...props.context]
     if (newContext[props.index].importance === 'red') {
       newContext[props.index].importance = 'green'
-      e.target.style.backgroundColor = '#E4C862'
     } else if (newContext[props.index].importance === 'green') {
       newContext[props.index].importance = 'yellow'
-      e.target.style.backgroundColor = '#7DCEAC'
     } else if (newContext[props.index].importance === 'yellow') {
       newContext[props.index].importance = 'red'
-      e.target.style.backgroundColor = '#FB6666'
     }
     props.update(newContext)
   }
@@ -55,6 +52,46 @@ function WorkElem(props) {
 
     return style
   }
+
+  const setDoneColor = () => {
+    let style
+    if (props.list.state) {
+      style = {
+        backgroundColor: '#f9457a',
+        border: 'none',
+      }
+    } else {
+      style = {
+        backgroundColor: '#fff',
+        border: '1.2px solid #f9457a',
+      }
+    }
+
+    return style
+  }
+
+  const todoContext = useContext(TodoContext)
+  const doneContext = useContext(DoneContext)
+
+  const changeDoneState = () => {
+    const newTodo = [...todoContext.state]
+    const newDone = [...doneContext.state]
+    if (props.data === 'done') {
+      const moveElem = newDone.splice(props.index, 1)
+      console.log(moveElem)
+      moveElem.state = false
+      newTodo.push(moveElem)
+    } else if (props.data === 'todo') {
+      const moveElem = newTodo.splice(props.index, 1)
+      console.log(moveElem)
+      moveElem.state = true
+      newDone.push(moveElem)
+    }
+    // TODO push 할 때 내용은 왜 안들어가는지?
+    todoContext.update(newTodo)
+    doneContext.update(newDone)
+  }
+
   return (
     <div id="work-box">
       <div className="work-elem">
@@ -79,7 +116,11 @@ function WorkElem(props) {
         />
       </div>
       <div className="work-check">
-        <button className="work-check-btn"></button>
+        <button
+          onClick={changeDoneState}
+          style={setDoneColor()}
+          className="work-check-btn"
+        ></button>
       </div>
     </div>
   )
@@ -100,11 +141,11 @@ export function Todo(props) {
         list={todo[i]}
         context={todo}
         update={update}
+        data="todo"
       />
     )
   }
 
-  // TODO 컴포넌트 마운트 될 때 focus
   let textInput = null
   useEffect(() => {
     textInput.focus()
@@ -148,7 +189,7 @@ export function Todo(props) {
           />
         </button>
       </div>
-      <Scrollbars style={{ width: 476, height: 450 }}>{todoItems}</Scrollbars>
+      <Scrollbars style={{ width: 486, height: 450 }}>{todoItems}</Scrollbars>
     </div>
   )
 }
@@ -169,6 +210,7 @@ export function Done() {
         list={done[i]}
         context={done}
         update={update}
+        data="done"
       />
     )
   }
@@ -176,7 +218,7 @@ export function Done() {
   return (
     <div id="list" className="done">
       <div className="list-text">Done</div>
-      <Scrollbars style={{ width: 476, height: 530 }}>{doneItems}</Scrollbars>
+      <Scrollbars style={{ width: 486, height: 530 }}>{doneItems}</Scrollbars>
     </div>
   )
 }
