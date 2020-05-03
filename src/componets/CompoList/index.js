@@ -89,6 +89,24 @@ function WorkElem(props) {
     doneContext.update(newDone)
   }
 
+  const [contents, setContents] = useState(list.contents)
+
+  const updateContentsValue = (e) => {
+    const newContext = [...props.context]
+    newContext[props.index].contents = e.target.value
+    props.update(newContext)
+    setContents(e.target.value)
+  }
+
+  const [title, setTitle] = useState(list.title)
+
+  const updateTitleValue = (e) => {
+    const newContext = [...props.context]
+    newContext[props.index].title = e.target.value
+    props.update(newContext)
+    setTitle(e.target.value)
+  }
+
   return (
     <div id="work-box">
       <div className="work-elem">
@@ -99,10 +117,22 @@ function WorkElem(props) {
         ></button>
         <div className="work-data">
           <div className="work-top-box">
-            <span className="work-title">{list.title}</span>
-            <span className="work-date">{list.date}</span>
+            <input
+              className="work-title"
+              value={title}
+              spellCheck="false"
+              onChange={updateTitleValue}
+            />
+            <span onClick={activateCalendar} className="work-date">
+              {list.date}
+            </span>
           </div>
-          <div className="work-contents">{list.contents}</div>
+          <input
+            className="work-contents"
+            value={contents}
+            spellCheck="false"
+            onChange={updateContentsValue}
+          />
         </div>
         <img className="edit-icon" src={edit} alt="edit" />
         <img
