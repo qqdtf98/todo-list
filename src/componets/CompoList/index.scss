@@ -107,6 +107,10 @@ input {
           font-weight: 500;
           font-size: 18px;
         }
+
+        .work-date {
+          cursor: pointer;
+        }
       }
 
       .work-contents {
@@ -114,14 +118,10 @@ input {
       }
     }
 
-    .edit-icon,
     .delete-icon {
       position: absolute;
       top: -8px;
       cursor: pointer;
-    }
-    .edit-icon {
-      right: 30px;
     }
     .delete-icon {
       right: 0px;

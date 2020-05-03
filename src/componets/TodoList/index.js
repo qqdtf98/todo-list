@@ -1,14 +1,26 @@
 import './index.scss'
+import 'react-calendar/dist/Calendar.css'
 
 import { Done, Todo } from '../CompoList'
 import React, { useState } from 'react'
 
+import Calendar from 'react-calendar'
 import search from '../../assets/images/search.svg'
 
 function SearchBar() {
+  const searchList = (e) => {
+    console.log(e.target.value)
+    // TODO search 결과에 따라 표시하기
+  }
+
   return (
     <div className="search-wrapper">
-      <input placeholder="search" className="search-input" />
+      <input
+        onChange={searchList}
+        placeholder="search"
+        className="search-input"
+        spellCheck="false"
+      />
       <img className="search-icon" src={search} alt="search" />
     </div>
   )
@@ -85,7 +97,20 @@ function TodoList() {
     },
   ])
 
-  // TODO push나 splice 할 때는 배열 복사해서 한 다음에 다시 setState하기
+  const getMonthFromString = (mon) => {
+    return new Date(Date.parse(mon + ' 1, 2012')).getMonth() + 1
+  }
+
+  const updateDateValue = (date) => {
+    const dateString = date + ''
+    const dateList = dateString.split(' ')
+    const newDate =
+      dateList[3] + '/' + getMonthFromString(dateList[1]) + '/' + dateList[2]
+    console.log(newDate)
+    calenElem.style.display = 'none'
+    // TODO span도 바꾸기
+  }
+
   // Provider의 value로 state와 setState함수를 전달
   return (
     <div id="todo-list">
@@ -96,6 +121,9 @@ function TodoList() {
           <DoneContext.Provider value={{ state: done, update: setDone }}>
             <Todo />
             <Done />
+            <div className="calendar-elem" ref={(elem) => (calenElem = elem)}>
+              <Calendar onChange={updateDateValue} />
+            </div>
           </DoneContext.Provider>
         </TodoContext.Provider>
       </div>

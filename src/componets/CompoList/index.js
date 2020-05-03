@@ -1,7 +1,7 @@
 import './index.scss'
 
-import { DoneContext, TodoContext } from '../TodoList'
-import React, { useContext, useEffect } from 'react'
+import { DoneContext, TodoContext, calenElem } from '../TodoList'
+import React, { useContext, useEffect, useState } from 'react'
 
 import { Scrollbars } from 'react-custom-scrollbars'
 import deleteIcon from '../../assets/images/delete.svg'
@@ -107,6 +107,17 @@ function WorkElem(props) {
     setTitle(e.target.value)
   }
 
+  const activateCalendar = (e) => {
+    if (getComputedStyle(calenElem).display === 'block') {
+      calenElem.style.display = 'none'
+    } else if (getComputedStyle(calenElem).display === 'none') {
+      const targetStyle = e.target.getBoundingClientRect()
+      calenElem.style.left = targetStyle.left - targetStyle.width + 'px'
+      calenElem.style.top = targetStyle.top + targetStyle.height + 'px'
+      calenElem.style.display = 'block'
+    }
+  }
+
   return (
     <div id="work-box">
       <div className="work-elem">
@@ -134,7 +145,6 @@ function WorkElem(props) {
             onChange={updateContentsValue}
           />
         </div>
-        <img className="edit-icon" src={edit} alt="edit" />
         <img
           onClick={deleteElem}
           className="delete-icon"

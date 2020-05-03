@@ -18,6 +18,11 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+
+    .calendar-elem {
+      position: fixed;
+      display: none;
+    }
   }
 }
 .search-wrapper {
@@ -41,6 +46,7 @@
     top: 50%;
     transform: translateY(-50%);
     outline: none;
+    width: 80%;
 
     &::placeholder {
       color: white;
