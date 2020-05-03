@@ -78,16 +78,13 @@ function WorkElem(props) {
     const newDone = [...doneContext.state]
     if (props.data === 'done') {
       const moveElem = newDone.splice(props.index, 1)
-      console.log(moveElem)
-      moveElem.state = false
-      newTodo.push(moveElem)
+      moveElem[0].state = false
+      newTodo.push(moveElem[0])
     } else if (props.data === 'todo') {
       const moveElem = newTodo.splice(props.index, 1)
-      console.log(moveElem)
-      moveElem.state = true
-      newDone.push(moveElem)
+      moveElem[0].state = true
+      newDone.push(moveElem[0])
     }
-    // TODO push 할 때 내용은 왜 안들어가는지?
     todoContext.update(newTodo)
     doneContext.update(newDone)
   }
@@ -147,13 +144,13 @@ export function Todo(props) {
   }
 
   let textInput = null
+
   useEffect(() => {
     textInput.focus()
   }, [textInput])
 
   const addElem = (e) => {
     if (e.key === 'Enter') {
-      console.log('enter')
       const newTodo = [...todo]
       const today = new Date()
       const date =
@@ -166,11 +163,12 @@ export function Todo(props) {
         title: 'title',
         contents: e.target.value,
         date,
-        state: true,
+        state: false,
         importance: 'yellow',
       }
       newTodo.push(newContext)
       update(newTodo)
+      e.target.value = ''
     }
   }
 

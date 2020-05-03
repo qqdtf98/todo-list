@@ -34,33 +34,35 @@ export const DoneContext = React.createContext([
   },
 ])
 
+export let calenElem = null
+
 function TodoList() {
   const [todo, setTodo] = useState([
     {
       title: 'title',
       contents: 'contents1',
-      date: '2020/04/29',
+      date: '2020/4/29',
       state: false,
       importance: 'red',
     },
     {
       title: 'title',
       contents: 'contents2',
-      date: '2020/04/29',
+      date: '2020/4/29',
       state: false,
       importance: 'green',
     },
     {
       title: 'title',
       contents: 'contents3',
-      date: '2020/04/29',
+      date: '2020/4/29',
       state: false,
       importance: 'red',
     },
     {
       title: 'title',
       contents: 'contents4',
-      date: '2020/04/29',
+      date: '2020/4/29',
       state: false,
       importance: 'yellow',
     },
@@ -70,14 +72,14 @@ function TodoList() {
     {
       title: 'title',
       contents: 'done1',
-      date: '2020/04/29',
+      date: '2020/4/29',
       state: true,
       importance: 'red',
     },
     {
       title: 'title',
       contents: 'done2',
-      date: '2020/04/29',
+      date: '2020/4/29',
       state: true,
       importance: 'yellow',
     },
