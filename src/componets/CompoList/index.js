@@ -4,8 +4,8 @@ import { DoneContext, SearchContent, TodoContext, calenElem } from '../TodoList'
 import React, { useContext, useEffect, useState } from 'react'
 
 import { Scrollbars } from 'react-custom-scrollbars'
+import api from '../../api/index.js'
 import deleteIcon from '../../assets/images/delete.svg'
-import edit from '../../assets/images/edit.svg'
 import plus from '../../assets/images/plus.svg'
 
 function WorkElem(props) {
@@ -233,6 +233,10 @@ export function Todo(props) {
       e.target.value = ''
     }
   }
+
+  api.get('/address', {}).then((res) => {
+    console.log(res.data)
+  })
 
   return (
     <div id="list" className="todo">
