@@ -173,24 +173,9 @@ export function Todo(props) {
   const searchContext = useContext(SearchContent)
 
   // create for loop for <WorkElem />
-  for (let i = todo.length - 1; i >= 0; i--) {
-    if (searchContext.state === '') {
-      todoItems.push(
-        <WorkElem
-          key={i}
-          index={i}
-          list={todo[i]}
-          context={todo}
-          update={update}
-          data="todo"
-        />
-      )
-    } else {
-      if (
-        todo[i].contents
-          .toUpperCase()
-          .indexOf(searchContext.state.toUpperCase()) > -1
-      ) {
+  if (todo.length > 0) {
+    for (let i = todo.length - 1; i >= 0; i--) {
+      if (searchContext.state === '') {
         todoItems.push(
           <WorkElem
             key={i}
@@ -201,6 +186,23 @@ export function Todo(props) {
             data="todo"
           />
         )
+      } else {
+        if (
+          todo[i].contents
+            .toUpperCase()
+            .indexOf(searchContext.state.toUpperCase()) > -1
+        ) {
+          todoItems.push(
+            <WorkElem
+              key={i}
+              index={i}
+              list={todo[i]}
+              context={todo}
+              update={update}
+              data="todo"
+            />
+          )
+        }
       }
     }
   }
@@ -233,10 +235,6 @@ export function Todo(props) {
       e.target.value = ''
     }
   }
-
-  api.get('/address', {}).then((res) => {
-    console.log(res.data)
-  })
 
   return (
     <div id="list" className="todo">

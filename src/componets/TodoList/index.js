@@ -2,9 +2,10 @@ import './index.scss'
 import 'react-calendar/dist/Calendar.css'
 
 import { Done, Todo } from '../CompoList'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import Calendar from 'react-calendar'
+import api from '../../api'
 import search from '../../assets/images/search.svg'
 
 export const SearchContent = React.createContext('')
@@ -52,53 +53,20 @@ export const DoneContext = React.createContext([
 export let calenElem = null
 
 function TodoList() {
-  const [todo, setTodo] = useState([
-    {
-      title: 'title',
-      contents: 'contents1',
-      date: '2020/4/29',
-      state: false,
-      importance: 'red',
-    },
-    {
-      title: 'title',
-      contents: 'contents2',
-      date: '2020/4/29',
-      state: false,
-      importance: 'green',
-    },
-    {
-      title: 'title',
-      contents: 'contents3',
-      date: '2020/4/29',
-      state: false,
-      importance: 'red',
-    },
-    {
-      title: 'title',
-      contents: 'contents4',
-      date: '2020/4/29',
-      state: false,
-      importance: 'yellow',
-    },
-  ])
+  let todoList = []
+  let doneList = []
 
-  const [done, setDone] = useState([
-    {
-      title: 'title',
-      contents: 'done1',
-      date: '2020/4/29',
-      state: true,
-      importance: 'red',
-    },
-    {
-      title: 'title',
-      contents: 'done2',
-      date: '2020/4/29',
-      state: true,
-      importance: 'yellow',
-    },
-  ])
+  useEffect(() => {
+    api.get('/get/list', { params: { listType: 'todo' } }).then((res) => {
+      setTodo(res.data)
+    })
+    api.get('/get/list', { params: { listType: 'done' } }).then((res) => {
+      setDone(res.data)
+    })
+  }, [])
+  const [todo, setTodo] = useState(todoList)
+
+  const [done, setDone] = useState(doneList)
 
   const getMonthFromString = (mon) => {
     return new Date(Date.parse(mon + ' 1, 2012')).getMonth() + 1
