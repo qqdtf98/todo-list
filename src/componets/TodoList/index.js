@@ -57,10 +57,10 @@ function TodoList() {
   let doneList = []
 
   useEffect(() => {
-    api.get('/get/list', { params: { listType: 'todo' } }).then((res) => {
+    api.get('/list/get', { params: { listType: 'todo' } }).then((res) => {
       setTodo(res.data)
     })
-    api.get('/get/list', { params: { listType: 'done' } }).then((res) => {
+    api.get('/list/get', { params: { listType: 'done' } }).then((res) => {
       setDone(res.data)
     })
   }, [])

@@ -15,6 +15,17 @@ function WorkElem(props) {
     const newContext = [...props.context]
     newContext.splice(props.index, 1)
     props.update(newContext)
+    api
+      .post('/list/delete', {
+        data: {
+          listType: props.data,
+          index: props.index,
+        },
+      })
+      .then((res) => {
+        console.log('iiii')
+        console.log(res.data)
+      })
   }
 
   // default: green
