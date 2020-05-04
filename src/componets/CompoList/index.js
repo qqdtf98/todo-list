@@ -1,6 +1,6 @@
 import './index.scss'
 
-import { DoneContext, TodoContext, calenElem } from '../TodoList'
+import { DoneContext, SearchContent, TodoContext, calenElem } from '../TodoList'
 import React, { useContext, useEffect, useState } from 'react'
 
 import { Scrollbars } from 'react-custom-scrollbars'
@@ -170,19 +170,39 @@ export function Todo(props) {
   const todo = todoContext.state
   const update = todoContext.update
   const todoItems = []
+  const searchContext = useContext(SearchContent)
 
   // create for loop for <WorkElem />
   for (let i = todo.length - 1; i >= 0; i--) {
-    todoItems.push(
-      <WorkElem
-        key={i}
-        index={i}
-        list={todo[i]}
-        context={todo}
-        update={update}
-        data="todo"
-      />
-    )
+    if (searchContext.state === '') {
+      todoItems.push(
+        <WorkElem
+          key={i}
+          index={i}
+          list={todo[i]}
+          context={todo}
+          update={update}
+          data="todo"
+        />
+      )
+    } else {
+      if (
+        todo[i].contents
+          .toUpperCase()
+          .indexOf(searchContext.state.toUpperCase()) > -1
+      ) {
+        todoItems.push(
+          <WorkElem
+            key={i}
+            index={i}
+            list={todo[i]}
+            context={todo}
+            update={update}
+            data="todo"
+          />
+        )
+      }
+    }
   }
 
   let textInput = null
@@ -238,21 +258,40 @@ export function Done() {
   const doneContext = useContext(DoneContext)
   const done = doneContext.state
   const update = doneContext.update
-
+  const searchContext = useContext(SearchContent)
   const doneItems = []
 
   // create for loop for <WorkElem />
   for (let i = done.length - 1; i >= 0; i--) {
-    doneItems.push(
-      <WorkElem
-        key={i}
-        index={i}
-        list={done[i]}
-        context={done}
-        update={update}
-        data="done"
-      />
-    )
+    if (searchContext.state === '') {
+      doneItems.push(
+        <WorkElem
+          key={i}
+          index={i}
+          list={done[i]}
+          context={done}
+          update={update}
+          data="done"
+        />
+      )
+    } else {
+      if (
+        done[i].contents
+          .toUpperCase()
+          .indexOf(searchContext.state.toUpperCase()) > -1
+      ) {
+        doneItems.push(
+          <WorkElem
+            key={i}
+            index={i}
+            list={done[i]}
+            context={done}
+            update={update}
+            data="done"
+          />
+        )
+      }
+    }
   }
 
   return (

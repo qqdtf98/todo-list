@@ -7,10 +7,13 @@ import React, { useContext, useState } from 'react'
 import Calendar from 'react-calendar'
 import search from '../../assets/images/search.svg'
 
+export const SearchContent = React.createContext('')
+
 function SearchBar() {
+  const searchContext = useContext(SearchContent)
+
   const searchList = (e) => {
-    console.log(e.target.value)
-    // TODO search 결과에 따라 표시하기
+    searchContext.update(e.target.value)
   }
 
   return (
@@ -120,22 +123,26 @@ function TodoList() {
     }
   }
 
+  const [search, setSearch] = useState('')
+
   // Provider의 value로 state와 setState함수를 전달
   return (
     <div id="todo-list">
       <h1 className="todo-title">Todo List</h1>
-      <SearchBar />
-      <div className="list-wrapper">
-        <TodoContext.Provider value={{ state: todo, update: setTodo }}>
-          <DoneContext.Provider value={{ state: done, update: setDone }}>
-            <Todo />
-            <Done />
-            <div className="calendar-elem" ref={(elem) => (calenElem = elem)}>
-              <Calendar onChange={updateDateValue} />
-            </div>
-          </DoneContext.Provider>
-        </TodoContext.Provider>
-      </div>
+      <SearchContent.Provider value={{ state: search, update: setSearch }}>
+        <SearchBar />
+        <div className="list-wrapper">
+          <TodoContext.Provider value={{ state: todo, update: setTodo }}>
+            <DoneContext.Provider value={{ state: done, update: setDone }}>
+              <Todo />
+              <Done />
+              <div className="calendar-elem" ref={(elem) => (calenElem = elem)}>
+                <Calendar onChange={updateDateValue} />
+              </div>
+            </DoneContext.Provider>
+          </TodoContext.Provider>
+        </div>
+      </SearchContent.Provider>
     </div>
   )
 }
