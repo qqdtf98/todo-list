@@ -115,6 +115,8 @@ function WorkElem(props) {
       calenElem.style.left = targetStyle.left - targetStyle.width + 'px'
       calenElem.style.top = targetStyle.top + targetStyle.height + 'px'
       calenElem.style.display = 'block'
+      calenElem.value = props.data
+      calenElem.setAttribute('index', props.index)
     }
   }
 

@@ -2,7 +2,7 @@ import './index.scss'
 import 'react-calendar/dist/Calendar.css'
 
 import { Done, Todo } from '../CompoList'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 
 import Calendar from 'react-calendar'
 import search from '../../assets/images/search.svg'
@@ -106,9 +106,18 @@ function TodoList() {
     const dateList = dateString.split(' ')
     const newDate =
       dateList[3] + '/' + getMonthFromString(dateList[1]) + '/' + dateList[2]
-    console.log(newDate)
+
     calenElem.style.display = 'none'
-    // TODO span도 바꾸기
+
+    if (calenElem.value === 'todo') {
+      const newTodo = [...todo]
+      newTodo[calenElem.getAttribute('index')].date = newDate
+      setTodo(newTodo)
+    } else if (calenElem.value === 'done') {
+      const newDone = [...done]
+      newDone[calenElem.getAttribute('index')].date = newDate
+      setDone(newDone)
+    }
   }
 
   // Provider의 value로 state와 setState함수를 전달
