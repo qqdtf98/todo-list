@@ -12,19 +12,16 @@ function WorkElem(props) {
   // delete list elem using index
   // update new list
   const deleteElem = () => {
-    const newContext = [...props.context]
-    newContext.splice(props.index, 1)
-    props.update(newContext)
     api
-      .post('/list/delete', {
-        data: {
+      .get('/list/delete', {
+        params: {
           listType: props.data,
           index: props.index,
         },
       })
       .then((res) => {
-        console.log('iiii')
-        console.log(res.data)
+        const newContext = res.data
+        props.update(newContext)
       })
   }
 
@@ -226,7 +223,6 @@ export function Todo(props) {
 
   const addElem = (e) => {
     if (e.key === 'Enter') {
-      const newTodo = [...todo]
       const today = new Date()
       const date =
         today.getFullYear() +
@@ -239,10 +235,19 @@ export function Todo(props) {
         contents: e.target.value,
         date,
         state: false,
-        importance: 'yellow',
+        importance: 'green',
       }
-      newTodo.push(newContext)
-      update(newTodo)
+      api
+        .get('/list/add', {
+          params: {
+            newContext,
+          },
+        })
+        .then((res) => {
+          console.log(res.data)
+          const newTodo = res.data
+          update(newTodo)
+        })
       e.target.value = ''
     }
   }
