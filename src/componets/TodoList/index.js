@@ -80,15 +80,22 @@ function TodoList() {
 
     calenElem.style.display = 'none'
 
-    if (calenElem.value === 'todo') {
-      const newTodo = [...todo]
-      newTodo[calenElem.getAttribute('index')].date = newDate
-      setTodo(newTodo)
-    } else if (calenElem.value === 'done') {
-      const newDone = [...done]
-      newDone[calenElem.getAttribute('index')].date = newDate
-      setDone(newDone)
-    }
+    api
+      .get('/list/update', {
+        params: {
+          listType: calenElem.value,
+          index: calenElem.getAttribute('index'),
+          key: 'date',
+          value: newDate,
+        },
+      })
+      .then((res) => {
+        if (calenElem.value === 'todo') {
+          setTodo(res.data)
+        } else if (calenElem.value === 'done') {
+          setDone(res.data)
+        }
+      })
   }
 
   const [search, setSearch] = useState('')

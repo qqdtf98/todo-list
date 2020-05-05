@@ -29,14 +29,29 @@ function WorkElem(props) {
   // green -> yellow -> red
   const changeImportance = (e) => {
     const newContext = [...props.context]
+    let importance = ''
     if (newContext[props.index].importance === 'red') {
-      newContext[props.index].importance = 'green'
+      importance = 'green'
     } else if (newContext[props.index].importance === 'green') {
-      newContext[props.index].importance = 'yellow'
+      importance = 'yellow'
     } else if (newContext[props.index].importance === 'yellow') {
-      newContext[props.index].importance = 'red'
+      importance = 'red'
     }
-    props.update(newContext)
+
+    setTimeout(() => {
+      api
+        .get('/list/update', {
+          params: {
+            listType: props.data,
+            index: props.index,
+            key: 'importance',
+            value: importance,
+          },
+        })
+        .then((res) => {
+          props.update(res.data)
+        })
+    }, 0)
   }
 
   const list = props.list
@@ -50,11 +65,11 @@ function WorkElem(props) {
       }
     } else if (props.list.importance === 'green') {
       style = {
-        backgroundColor: '#E4C862',
+        backgroundColor: '#7DCEAC',
       }
     } else if (props.list.importance === 'yellow') {
       style = {
-        backgroundColor: '#7DCEAC',
+        backgroundColor: '#E4C862',
       }
     }
 
@@ -84,6 +99,7 @@ function WorkElem(props) {
   const changeDoneState = () => {
     const newTodo = [...todoContext.state]
     const newDone = [...doneContext.state]
+
     if (props.data === 'done') {
       const moveElem = newDone.splice(props.index, 1)
       moveElem[0].state = false
@@ -100,19 +116,41 @@ function WorkElem(props) {
   const [contents, setContents] = useState(list.contents)
 
   const updateContentsValue = (e) => {
-    const newContext = [...props.context]
-    newContext[props.index].contents = e.target.value
-    props.update(newContext)
-    setContents(e.target.value)
+    const newContents = e.target.value
+
+    api
+      .get('/list/update', {
+        params: {
+          listType: props.data,
+          index: props.index,
+          key: 'contents',
+          value: newContents,
+        },
+      })
+      .then((res) => {
+        setContents(newContents)
+        props.update(res.data)
+      })
   }
 
   const [title, setTitle] = useState(list.title)
 
   const updateTitleValue = (e) => {
-    const newContext = [...props.context]
-    newContext[props.index].title = e.target.value
-    props.update(newContext)
-    setTitle(e.target.value)
+    const newTitle = e.target.value
+
+    api
+      .get('/list/update', {
+        params: {
+          listType: props.data,
+          index: props.index,
+          key: 'title',
+          value: newTitle,
+        },
+      })
+      .then((res) => {
+        setTitle(newTitle)
+        props.update(res.data)
+      })
   }
 
   const activateCalendar = (e) => {
@@ -244,7 +282,6 @@ export function Todo(props) {
           },
         })
         .then((res) => {
-          console.log(res.data)
           const newTodo = res.data
           update(newTodo)
         })
