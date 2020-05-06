@@ -101,12 +101,23 @@ function WorkElem(props) {
     const newDone = [...doneContext.state]
 
     if (props.data === 'done') {
-      const moveElem = newDone.splice(props.index, 1)
-      moveElem[0].state = false
+      //TODO api 연결하기
+      // api
+      //   .get('/list/change', {
+      //     params: { before: 'done_list', after: 'todo_list', id: props.index },
+      //   })
+      //   .then((res) => {
+      //     //res.data.todo res.data.done
+      //   })
+      const index = newDone.findIndex((elem) => elem.id === props.index)
+      const moveElem = newDone.splice(index, 1)
+      moveElem[0].state = 0
       newTodo.push(moveElem[0])
     } else if (props.data === 'todo') {
-      const moveElem = newTodo.splice(props.index, 1)
-      moveElem[0].state = true
+      const index = newTodo.findIndex((elem) => elem.id === props.index)
+      const moveElem = newTodo.splice(index, 1)
+      moveElem[0].state = 1
+      console.log(moveElem[0])
       newDone.push(moveElem[0])
     }
     todoContext.update(newTodo)
@@ -272,7 +283,7 @@ export function Todo(props) {
         title: 'title',
         contents: e.target.value,
         date,
-        state: false,
+        state: 0,
         importance: 'green',
       }
       api
