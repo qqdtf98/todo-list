@@ -32,20 +32,22 @@ function SearchBar() {
 
 export const TodoContext = React.createContext([
   {
+    id: 0,
     title: '',
     contents: '',
     date: '',
-    state: false,
+    state: 0,
     importance: '',
   },
 ])
 
 export const DoneContext = React.createContext([
   {
+    id: 0,
     title: '',
     contents: '',
     date: '',
-    state: true,
+    state: 1,
     importance: '',
   },
 ])

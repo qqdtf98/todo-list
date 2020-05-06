@@ -225,7 +225,7 @@ export function Todo(props) {
         todoItems.push(
           <WorkElem
             key={i}
-            index={i}
+            index={todo[i].id}
             list={todo[i]}
             context={todo}
             update={update}
@@ -241,7 +241,7 @@ export function Todo(props) {
           todoItems.push(
             <WorkElem
               key={i}
-              index={i}
+              index={todo[i].id}
               list={todo[i]}
               context={todo}
               update={update}
@@ -322,7 +322,7 @@ export function Done() {
       doneItems.push(
         <WorkElem
           key={i}
-          index={i}
+          index={done[i].id}
           list={done[i]}
           context={done}
           update={update}
@@ -338,7 +338,7 @@ export function Done() {
         doneItems.push(
           <WorkElem
             key={i}
-            index={i}
+            index={done[i].id}
             list={done[i]}
             context={done}
             update={update}
