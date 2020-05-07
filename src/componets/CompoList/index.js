@@ -29,12 +29,13 @@ function WorkElem(props) {
   // green -> yellow -> red
   const changeImportance = (e) => {
     const newContext = [...props.context]
+    const index = props.context.findIndex((elem) => elem.id === props.index)
     let importance = ''
-    if (newContext[props.index].importance === 'red') {
+    if (newContext[index].importance === 'red') {
       importance = 'green'
-    } else if (newContext[props.index].importance === 'green') {
+    } else if (newContext[index].importance === 'green') {
       importance = 'yellow'
-    } else if (newContext[props.index].importance === 'yellow') {
+    } else if (newContext[index].importance === 'yellow') {
       importance = 'red'
     }
 
@@ -97,31 +98,25 @@ function WorkElem(props) {
   const doneContext = useContext(DoneContext)
 
   const changeDoneState = () => {
-    const newTodo = [...todoContext.state]
-    const newDone = [...doneContext.state]
-
     if (props.data === 'done') {
-      //TODO api 연결하기
-      // api
-      //   .get('/list/change', {
-      //     params: { before: 'done_list', after: 'todo_list', id: props.index },
-      //   })
-      //   .then((res) => {
-      //     //res.data.todo res.data.done
-      //   })
-      const index = newDone.findIndex((elem) => elem.id === props.index)
-      const moveElem = newDone.splice(index, 1)
-      moveElem[0].state = 0
-      newTodo.push(moveElem[0])
+      api
+        .get('/list/change', {
+          params: { before: 'done_list', after: 'todo_list', id: props.index },
+        })
+        .then((res) => {
+          todoContext.update(res.data.todo)
+          doneContext.update(res.data.done)
+        })
     } else if (props.data === 'todo') {
-      const index = newTodo.findIndex((elem) => elem.id === props.index)
-      const moveElem = newTodo.splice(index, 1)
-      moveElem[0].state = 1
-      console.log(moveElem[0])
-      newDone.push(moveElem[0])
+      api
+        .get('/list/change', {
+          params: { before: 'todo_list', after: 'done_list', id: props.index },
+        })
+        .then((res) => {
+          todoContext.update(res.data.todo)
+          doneContext.update(res.data.done)
+        })
     }
-    todoContext.update(newTodo)
-    doneContext.update(newDone)
   }
 
   const [contents, setContents] = useState(list.contents)
