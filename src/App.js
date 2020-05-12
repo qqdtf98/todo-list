@@ -1,12 +1,18 @@
 import './App.scss'
 
+import { Link, Route, BrowserRouter as Router } from 'react-router-dom'
+
+import Main from './pages/main/index.js'
 import React from 'react'
-import TodoList from './componets/TodoList'
+import TodoPage from './pages/Todo/index.js'
 
 function App() {
   return (
     <div id="App">
-      <TodoList />
+      <Router>
+        <Route exact path="/" component={Main} />
+        <Route path="/todo" component={TodoPage} />
+      </Router>
     </div>
   )
 }
