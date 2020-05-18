@@ -59,12 +59,24 @@ function TodoList() {
   let doneList = []
 
   useEffect(() => {
-    api.get('/list/get', { params: { listType: 'todo' } }).then((res) => {
-      setTodo(res.data)
-    })
-    api.get('/list/get', { params: { listType: 'done' } }).then((res) => {
-      setDone(res.data)
-    })
+    api
+      .post('/list/get', {
+        data: {
+          listType: 'todo',
+        },
+      })
+      .then((res) => {
+        setTodo(res.data)
+      })
+    api
+      .post('/list/get', {
+        data: {
+          listType: 'done',
+        },
+      })
+      .then((res) => {
+        setDone(res.data)
+      })
   }, [])
   const [todo, setTodo] = useState(todoList)
 
@@ -83,8 +95,8 @@ function TodoList() {
     calenElem.style.display = 'none'
 
     api
-      .get('/list/update', {
-        params: {
+      .post('/list/update', {
+        data: {
           listType: calenElem.value,
           index: calenElem.getAttribute('index'),
           key: 'date',

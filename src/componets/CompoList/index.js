@@ -13,8 +13,8 @@ function WorkElem(props) {
   // update new list
   const deleteElem = () => {
     api
-      .get('/list/delete', {
-        params: {
+      .post('/list/delete', {
+        data: {
           listType: props.data,
           index: props.index,
         },
@@ -41,8 +41,8 @@ function WorkElem(props) {
 
     setTimeout(() => {
       api
-        .get('/list/update', {
-          params: {
+        .post('/list/update', {
+          data: {
             listType: props.data,
             index: props.index,
             key: 'importance',
@@ -100,8 +100,8 @@ function WorkElem(props) {
   const changeDoneState = () => {
     if (props.data === 'done') {
       api
-        .get('/list/change', {
-          params: { before: 'done_list', after: 'todo_list', id: props.index },
+        .post('/list/change', {
+          data: { before: 'done_list', after: 'todo_list', id: props.index },
         })
         .then((res) => {
           todoContext.update(res.data.todo)
@@ -109,8 +109,8 @@ function WorkElem(props) {
         })
     } else if (props.data === 'todo') {
       api
-        .get('/list/change', {
-          params: { before: 'todo_list', after: 'done_list', id: props.index },
+        .post('/list/change', {
+          data: { before: 'todo_list', after: 'done_list', id: props.index },
         })
         .then((res) => {
           todoContext.update(res.data.todo)
@@ -125,8 +125,8 @@ function WorkElem(props) {
     const newContents = e.target.value
 
     api
-      .get('/list/update', {
-        params: {
+      .post('/list/update', {
+        data: {
           listType: props.data,
           index: props.index,
           key: 'contents',
@@ -145,8 +145,8 @@ function WorkElem(props) {
     const newTitle = e.target.value
 
     api
-      .get('/list/update', {
-        params: {
+      .post('/list/update', {
+        data: {
           listType: props.data,
           index: props.index,
           key: 'title',
@@ -282,8 +282,8 @@ export function Todo(props) {
         importance: 'green',
       }
       api
-        .get('/list/add', {
-          params: {
+        .post('/list/add', {
+          data: {
             newContext,
           },
         })
