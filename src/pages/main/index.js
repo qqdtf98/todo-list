@@ -8,8 +8,17 @@ import api from '../../api/index.js'
 import google from '../../assets/images/google.png'
 
 function Main() {
-  const responseGoogle = (result) => {
-    console.log(result)
+  const confirmId = (result) => {
+    console.log(result.profileObj.email)
+    api
+      .get('/user/get', {
+        params: {
+          userId: result.profileObj.email,
+        },
+      })
+      .then((res) => {
+        console.log(res)
+      })
   }
 
   return (
@@ -27,7 +36,7 @@ function Main() {
           // <button onClick={props.onClick}>Login</button>
         )}
         buttonText="Sign in with Google"
-        onSuccess={responseGoogle}
+        onSuccess={confirmId}
         onFailure={(result) => console.log(result)}
         cookiePolicy={'single_host_origin'}
       />
