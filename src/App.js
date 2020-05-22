@@ -11,7 +11,7 @@ function App() {
     <div id="App">
       <Router>
         <Route exact path="/" component={Main} />
-        <Route path="/todo" component={TodoPage} />
+        <Route path="/todo/:userId" component={TodoPage} />
       </Router>
     </div>
   )

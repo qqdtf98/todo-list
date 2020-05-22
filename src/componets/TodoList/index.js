@@ -3,6 +3,7 @@ import 'react-calendar/dist/Calendar.css'
 
 import { Done, Todo } from '../CompoList'
 import React, { useContext, useEffect, useState } from 'react'
+import { UserContent } from '../../pages/Todo/index.js'
 
 import Calendar from 'react-calendar'
 import api from '../../api'
@@ -57,24 +58,29 @@ export let calenElem = null
 function TodoList() {
   let todoList = []
   let doneList = []
+  const userContent = useContext(UserContent)
 
   useEffect(() => {
     api
       .post('/list/get', {
         data: {
+          userId: userContent.userId,
           listType: 'todo',
         },
       })
       .then((res) => {
         setTodo(res.data)
       })
+    // TODO userId 가지고 해당 list 가지고오기
     api
       .post('/list/get', {
         data: {
+          userId: UserContent.userId,
           listType: 'done',
         },
       })
       .then((res) => {
+        console.log(res)
         setDone(res.data)
       })
   }, [])

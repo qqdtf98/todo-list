@@ -2,22 +2,29 @@ import './index.scss'
 
 import Axios from 'axios'
 import GoogleLogin from 'react-google-login'
-import { NavLink } from 'react-router-dom'
-import React from 'react'
+import { useHistory } from 'react-router-dom'
+import React, { useContext } from 'react'
 import api from '../../api/index.js'
 import google from '../../assets/images/google.png'
+import { SearchContent } from '../../componets/TodoList'
 
 function Main() {
-  const confirmId = (result) => {
-    console.log(result.profileObj.email)
-    api
+  const history = useHistory()
+
+  const confirmUserData = async (result) => {
+    let userData
+    await api
       .get('/user/get', {
         params: {
-          userId: result.profileObj.email,
+          userData: result.profileObj,
         },
       })
       .then((res) => {
         console.log(res)
+        userData = res.data[0]
+
+        history.push(`/todo/${userData.userId}`)
+        // console.log(userData)
       })
   }
 
@@ -36,7 +43,7 @@ function Main() {
           // <button onClick={props.onClick}>Login</button>
         )}
         buttonText="Sign in with Google"
-        onSuccess={confirmId}
+        onSuccess={confirmUserData}
         onFailure={(result) => console.log(result)}
         cookiePolicy={'single_host_origin'}
       />

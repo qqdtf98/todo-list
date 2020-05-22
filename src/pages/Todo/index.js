@@ -1,12 +1,16 @@
 import './index.scss'
 
-import React from 'react'
+import React, { useContext, createContext } from 'react'
 import TodoList from '../../componets/TodoList/index.js'
 
-function TodoPage() {
+export const UserContent = React.createContext('')
+
+function TodoPage(urlData) {
   return (
     <>
-      <TodoList id="todo-page" />
+      <UserContent.Provider value={{ userId: urlData.match.params.userId }}>
+        <TodoList id="todo-page" />
+      </UserContent.Provider>
     </>
   )
 }
