@@ -2,6 +2,7 @@ import './index.scss'
 
 import { DoneContext, SearchContent, TodoContext, calenElem } from '../TodoList'
 import React, { useContext, useEffect, useState } from 'react'
+import { UserContent } from '../../pages/Todo/index.js'
 
 import { Scrollbars } from 'react-custom-scrollbars'
 import api from '../../api/index.js'
@@ -223,6 +224,7 @@ export function Todo(props) {
   const update = todoContext.update
   const todoItems = []
   const searchContext = useContext(SearchContent)
+  const userContent = useContext(UserContent)
 
   // create for loop for <WorkElem />
   if (todo.length > 0) {
@@ -284,6 +286,7 @@ export function Todo(props) {
       api
         .post('/list/add', {
           data: {
+            userId: userContent.userId,
             newContext,
           },
         })

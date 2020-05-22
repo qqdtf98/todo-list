@@ -20,7 +20,6 @@ function Main() {
         },
       })
       .then((res) => {
-        console.log(res)
         userData = res.data[0]
 
         history.push(`/todo/${userData.userId}`)

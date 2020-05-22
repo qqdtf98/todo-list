@@ -61,6 +61,7 @@ function TodoList() {
   const userContent = useContext(UserContent)
 
   useEffect(() => {
+    console.log('load')
     api
       .post('/list/get', {
         data: {
@@ -75,7 +76,7 @@ function TodoList() {
     api
       .post('/list/get', {
         data: {
-          userId: UserContent.userId,
+          userId: userContent.userId,
           listType: 'done',
         },
       })
