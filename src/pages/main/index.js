@@ -1,12 +1,13 @@
 import './index.scss'
 
+import React, { useContext } from 'react'
+
 import Axios from 'axios'
 import GoogleLogin from 'react-google-login'
-import { useHistory } from 'react-router-dom'
-import React, { useContext } from 'react'
+import { SearchContent } from '../../componets/TodoList'
 import api from '../../api/index.js'
 import google from '../../assets/images/google.png'
-import { SearchContent } from '../../componets/TodoList'
+import { useHistory } from 'react-router-dom'
 
 function Main() {
   const history = useHistory()
@@ -20,9 +21,11 @@ function Main() {
         },
       })
       .then((res) => {
+        console.log(res)
         userData = res.data[0]
+        console.log(userData)
 
-        history.push(`/todo/${userData.userId}`)
+        history.push(`/todo/${userData.id}`)
         // console.log(userData)
       })
   }

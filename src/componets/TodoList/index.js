@@ -3,9 +3,9 @@ import 'react-calendar/dist/Calendar.css'
 
 import { Done, Todo } from '../CompoList'
 import React, { useContext, useEffect, useState } from 'react'
-import { UserContent } from '../../pages/Todo/index.js'
 
 import Calendar from 'react-calendar'
+import { UserContent } from '../../pages/Todo/index.js'
 import api from '../../api'
 import search from '../../assets/images/search.svg'
 
@@ -62,6 +62,7 @@ function TodoList() {
 
   useEffect(() => {
     console.log('load')
+    console.log(userContent)
     api
       .post('/list/get', {
         data: {
@@ -104,6 +105,7 @@ function TodoList() {
     api
       .post('/list/update', {
         data: {
+          userId: userContent.userId,
           listType: calenElem.value,
           index: calenElem.getAttribute('index'),
           key: 'date',

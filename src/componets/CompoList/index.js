@@ -2,20 +2,22 @@ import './index.scss'
 
 import { DoneContext, SearchContent, TodoContext, calenElem } from '../TodoList'
 import React, { useContext, useEffect, useState } from 'react'
-import { UserContent } from '../../pages/Todo/index.js'
 
 import { Scrollbars } from 'react-custom-scrollbars'
+import { UserContent } from '../../pages/Todo/index.js'
 import api from '../../api/index.js'
 import deleteIcon from '../../assets/images/delete.svg'
 import plus from '../../assets/images/plus.svg'
 
 function WorkElem(props) {
+  const userContent = useContext(UserContent)
   // delete list elem using index
   // update new list
   const deleteElem = () => {
     api
       .post('/list/delete', {
         data: {
+          userId: userContent.userId,
           listType: props.data,
           index: props.index,
         },
@@ -44,6 +46,7 @@ function WorkElem(props) {
       api
         .post('/list/update', {
           data: {
+            userId: userContent.userId,
             listType: props.data,
             index: props.index,
             key: 'importance',
@@ -102,7 +105,13 @@ function WorkElem(props) {
     if (props.data === 'done') {
       api
         .post('/list/change', {
-          data: { before: 'done_list', after: 'todo_list', id: props.index },
+          data: {
+            userId: userContent.userId,
+            before: 'done_list',
+            after: 'todo_list',
+            id: props.index,
+            type: 'todo',
+          },
         })
         .then((res) => {
           todoContext.update(res.data.todo)
@@ -111,7 +120,13 @@ function WorkElem(props) {
     } else if (props.data === 'todo') {
       api
         .post('/list/change', {
-          data: { before: 'todo_list', after: 'done_list', id: props.index },
+          data: {
+            userId: userContent.userId,
+            before: 'todo_list',
+            after: 'done_list',
+            id: props.index,
+            type: 'done',
+          },
         })
         .then((res) => {
           todoContext.update(res.data.todo)
@@ -128,6 +143,7 @@ function WorkElem(props) {
     api
       .post('/list/update', {
         data: {
+          userId: userContent.userId,
           listType: props.data,
           index: props.index,
           key: 'contents',
@@ -148,6 +164,7 @@ function WorkElem(props) {
     api
       .post('/list/update', {
         data: {
+          userId: userContent.userId,
           listType: props.data,
           index: props.index,
           key: 'title',
@@ -291,6 +308,7 @@ export function Todo(props) {
           },
         })
         .then((res) => {
+          console.log(res.data)
           const newTodo = res.data
           update(newTodo)
         })
